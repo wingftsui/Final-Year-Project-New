@@ -17,6 +17,7 @@ label = ctk.CTkLabel(app, text="Status: Detecting (Safe)", text_color="green", f
 label.pack(pady=50)
 
 mac_history = {}
+attack_counter = {}
 
 # Detailed Warning Display
 def trigger_warning(src_mac, dest_mac, reason):
@@ -83,8 +84,19 @@ def detect_deauth(packet):
                         is_abnormal = True
                         reason_msg = f"RSSI Delta: {rssi_delta} dBm"                
 
+                    if attack_counter.get(src_mac,0) > 0:
+                        attack_counter[src_mac] += 1
+                    elif is_abnormal:
+                        attack_counter[src_mac] = 1
+                    else:
+                        attack_counter[src_mac] = 0
                     
-
+                    if attack_counter.get(src_mac,0)>=5:
+                        print("Warning: Deauth Attack Detected!")
+                        app.after(0, trigger_warning, src_mac, dest_mac, reason_msg)
+                        attack_counter[src_mac] = 0
+                        return
+                    
         mac_history[src_mac] = {
             "time": current_time,
             "seq": current_seq,
