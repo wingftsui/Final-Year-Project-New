@@ -74,14 +74,17 @@ def detect_deauth(packet):
                         rssi_delta = abs(current_rssi-previous_rssi)
                         rssi_info = f"{rssi_delta} dBm"
 
+                    is_abnormal = False
+                    reason_msg = "Deauth Flood Attack"
+
                     # 1st Round Checking: Check any abnormal situation in sequence number in management frame
                     seq_diff = abs(current_seq - previous_seq)
                     if 50 < seq_diff < 4046:
-                        print(f"Warning: Deauth Attack Detected! Abnormal Sequence Number!")
-                        app.after(0, trigger_warning, src_mac, dest_mac, "Abnormal Sequence Number")
-                        return
-                
-        
+                        is_abnormal = True
+                        reason_msg = f"RSSI Delta: {rssi_delta} dBm"                
+
+                    
+
         mac_history[src_mac] = {
             "time": current_time,
             "seq": current_seq,
