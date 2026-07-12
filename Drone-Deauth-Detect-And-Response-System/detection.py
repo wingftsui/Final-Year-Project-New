@@ -68,7 +68,7 @@ def detect_deauth(packet):
                 time_diff = current_time - previous_time
 
             
-                if time_diff <= 0.1:
+                if time_diff <= 2:
                     
                     # 1st Round Checking: Check any abnormal situation in sequence number in management frame
                     seq_diff = abs(current_seq - previous_seq)
