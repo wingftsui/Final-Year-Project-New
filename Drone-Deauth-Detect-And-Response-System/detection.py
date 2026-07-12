@@ -10,7 +10,7 @@ ctk.set_default_color_theme("green")
 # GUI background
 app = ctk.CTk()
 app.title("Drone Deauth Detection Module")
-app.geometry("600x300")
+app.geometry("700x400")
 
 # Showing Status
 label = ctk.CTkLabel(app, text="Status: Detecting (Safe)", text_color="green", font=("Arial", 20))
@@ -69,7 +69,11 @@ def detect_deauth(packet):
 
             
                 if time_diff <= 2:
-                    
+                    rssi_info="N/A"
+                    if current_rssi is not None and previous_rssi is not None:
+                        rssi_delta = abs(current_rssi-previous_rssi)
+                        rssi_info = f"{rssi_delta} dBm"
+
                     # 1st Round Checking: Check any abnormal situation in sequence number in management frame
                     seq_diff = abs(current_seq - previous_seq)
                     if 50 < seq_diff < 4046:
@@ -77,15 +81,6 @@ def detect_deauth(packet):
                         app.after(0, trigger_warning, src_mac, dest_mac, "Abnormal Sequence Number")
                         return
                 
-                    # 2nd Round Checking: Detect the RSSI using RadioTap to find whether there is abnormal situation
-                    if current_rssi is not None and previous_rssi is not None:
-                        rssi_delta = abs(current_rssi - previous_rssi)
-                        if rssi_delta > 0:
-                            print(f"Warning: Deauth Attack Detected! Abnormal RSSI")
-                            print(f"  - Source Mac Address: {src_mac}")
-                            print(f"  - Destination Mac Address: {dest_mac}")
-                            app.after(0, trigger_warning, src_mac, dest_mac, f"RSSI Delta: {rssi_delta} dBm")
-                            return
         
         mac_history[src_mac] = {
             "time": current_time,
