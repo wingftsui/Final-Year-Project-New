@@ -72,7 +72,7 @@ def detect_deauth(packet):
                     
                     # 1st Round Checking: Check any abnormal situation in sequence number in management frame
                     seq_diff = abs(current_seq - previous_seq)
-                    if 50 < seq_diff < 4000:
+                    if 50 < seq_diff < 4046:
                         print(f"Warning: Deauth Attack Detected! Abnormal Sequence Number!")
                         app.after(0, trigger_warning, src_mac, dest_mac, "Abnormal Sequence Number")
                         return
