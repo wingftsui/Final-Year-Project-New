@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from scapy.all import *
 from scapy.all import sniff
 from scapy.layers.dot11 import Dot11, RadioTap
 import threading
@@ -80,9 +81,11 @@ def detect_deauth(packet):
 
                     # 1st Round Checking: Check any abnormal situation in sequence number in management frame
                     seq_diff = abs(current_seq - previous_seq)
-                    if 50 < seq_diff < 4046:
+
+                    
+                    if seq_diff ==0 and Retry==1:
                         is_abnormal = True
-                        reason_msg = f"RSSI Delta: {rssi_delta} dBm"                
+                        reason_msg = f"Replay Deauth Attack Detected\n RSSI Delta: {rssi_delta} dBm"                
 
                     if attack_counter.get(src_mac,0) > 0:
                         attack_counter[src_mac] += 1
