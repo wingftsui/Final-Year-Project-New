@@ -33,6 +33,13 @@ def load_drone_json(filepath='drones.json'):
         label.configure(text=f'No json config file found.')
         return{}
 
+drones_data=load_drone_json()
+for drone_name, details in drones_data.items():
+    if isinstance(details,dict):
+        if "mac_address" in details:
+            protected_drone_macs.append(details["mac_address"].upper())
+        if "ap_mac" in details:
+            protected_drone_macs.append(details["ap_mac"].upper())
 
 
 # Detailed Warning Display
@@ -49,7 +56,9 @@ def trigger_warning(src_mac, dest_mac, reason):
 def detect_deauth(packet):
     # Detect Wifi packet
     if packet.haslayer(Dot11):
+        if packet.type=0 or packet
         if packet.addr3 == :
+
         dest_mac = packet.addr1
         src_mac = packet.addr2
         pkt_type = packet.type
@@ -78,49 +87,10 @@ def detect_deauth(packet):
         # Check if it is management frame
         # And check if it is deauth or disassociation
         if pkt_type == 0 and (pkt_subtype == 12 or pkt_subtype == 10):
-            if src_mac in mac_history:
-                previous_time = mac_history[src_mac]["time"]
-                previous_seq = mac_history[src_mac].get("seq", current_seq)
-                previous_rssi = mac_history[src_mac].get("rssi", None)
-                
-                time_diff = current_time - previous_time
 
             
-                if time_diff <= 2:
-                    rssi_info="N/A"
-                    if current_rssi is not None and previous_rssi is not None:
-                        rssi_delta = abs(current_rssi-previous_rssi)
-                        rssi_info = f"{rssi_delta} dBm"
 
-                    is_abnormal = False
-                    reason_msg = "Deauth Flood Attack"
-
-                    # 1st Round Checking: Check any abnormal situation in sequence number in management frame
-                    seq_diff = abs(current_seq - previous_seq)
-
-                    
-                    if seq_diff ==0 and Retry==1:
-                        is_abnormal = True
-                        reason_msg = f"Replay Deauth Attack Detected\n RSSI Delta: {rssi_delta} dBm"                
-
-                    if attack_counter.get(src_mac,0) > 0:
-                        attack_counter[src_mac] += 1
-                    elif is_abnormal:
-                        attack_counter[src_mac] = 1
-                    else:
-                        attack_counter[src_mac] = 0
-                    
-                    if attack_counter.get(src_mac,0)>=5:
-                        print("Warning: Deauth Attack Detected!")
-                        app.after(0, trigger_warning, src_mac, dest_mac, reason_msg)
-                        attack_counter[src_mac] = 0
-                        return
-                    
-        mac_history[src_mac] = {
-            "time": current_time,
-            "seq": current_seq,
-            "rssi": current_rssi 
-        }
+    return
 
 def keep_sniffing():
     print("Monitoring WiFi Packets...")
