@@ -19,6 +19,21 @@ label.pack(pady=50)
 
 mac_history = {}
 attack_counter = {}
+protected_drone_macs = []
+
+# Read the drones information in the json file
+def load_drone_json(filepath='drones.json'):
+    try:
+        with open(filepath,'r') as file:
+            return json.load(file)
+    # Check if the json config file is here. 
+    # It records the Drone's profile data.
+    # The details of the json content are in the readme file under "Drone-Deauth-Detect-And-Response-System" folder.  
+    except FileNotFoundError:
+        label.configure(text=f'No json config file found.')
+        return{}
+
+
 
 # Detailed Warning Display
 def trigger_warning(src_mac, dest_mac, reason):
