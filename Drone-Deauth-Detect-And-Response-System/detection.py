@@ -1,9 +1,9 @@
 import customtkinter as ctk
-from scapy.all import *
 from scapy.all import sniff
 from scapy.layers.dot11 import Dot11, RadioTap
 import threading
 import time
+import json
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
@@ -34,6 +34,7 @@ def trigger_warning(src_mac, dest_mac, reason):
 def detect_deauth(packet):
     # Detect Wifi packet
     if packet.haslayer(Dot11):
+        if packet.addr3 == :
         dest_mac = packet.addr1
         src_mac = packet.addr2
         pkt_type = packet.type
