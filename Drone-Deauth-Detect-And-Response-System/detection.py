@@ -56,30 +56,30 @@ def trigger_warning(src_mac, dest_mac, reason):
 def detect_deauth(packet):
     # Detect Wifi packet
     if packet.haslayer(Dot11):
-        if packet.type=0 or packet
-        if packet.addr3 == :
-
-        dest_mac = packet.addr1
-        src_mac = packet.addr2
-        pkt_type = packet.type
-        pkt_subtype = packet.subtype
-
-        if src_mac is None:
-            return
-
-        current_time = time.time() 
-        
-        try:
-            current_seq = packet[Dot11].SC >> 4
-        except AttributeError:
-            current_seq = 0
-
-
-        # Detection Logic:
         # Check if it is management frame
         # And check if it is deauth or disassociation
         if pkt_type == 0 and (pkt_subtype == 12 or pkt_subtype == 10):
-            return
+            if packet.addr3 == :
+
+            dest_mac = packet.addr1
+            src_mac = packet.addr2
+            pkt_type = packet.type
+            pkt_subtype = packet.subtype
+
+            if src_mac is None:
+                return
+
+            # Extract Sequence Number
+            try:
+                current_seq = packet[Dot11].SC >> 4
+            except AttributeError:
+                current_seq = 0
+
+            # Detection Logic:
+
+
+            current_time = time.time()        
+        return
     return
 
 def keep_sniffing():
