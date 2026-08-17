@@ -74,22 +74,12 @@ def detect_deauth(packet):
         except AttributeError:
             current_seq = 0
 
-        current_rssi = None
-
-        # Extract RSSI
-        if packet.haslayer(RadioTap):
-            try:
-                current_rssi = packet[RadioTap].dBm_AntSignal
-            except AttributeError:
-                pass
 
         # Detection Logic:
         # Check if it is management frame
         # And check if it is deauth or disassociation
         if pkt_type == 0 and (pkt_subtype == 12 or pkt_subtype == 10):
-
-            
-
+            return
     return
 
 def keep_sniffing():
