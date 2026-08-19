@@ -75,6 +75,8 @@ def detect_deauth(packet):
             except AttributeError:
                 current_seq = 0
 
+            retry_bit=(packet.FCfield & 0x08)!=0
+            previous_seq=mac_history.get(src_mac{}).get("seq",-1)
             # Detection Logic:
 
 
