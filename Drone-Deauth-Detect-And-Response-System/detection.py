@@ -76,10 +76,16 @@ def detect_deauth(packet):
                 current_seq = 0
 
             retry_bit=(packet.FCfield & 0x08)!=0
-            previous_seq=mac_history.get(src_mac{}).get("seq",-1)
+            previous_seq=mac_history.get(src_mac,{}).get("seq",-1)
             # Detection Logic:
+            # Pretend Resend Deauth Attack: is retry but sequence nubmer is different
+            if previous_seq!= -1 and retry_bit and (current_seq!=previous_seq):
+                app.after(0,trigger_warning,src_mac,dest_mac,"Pretend Resend Deauth Attack")
+                mac_history[src_mac]={"seq":current_seq,"time":time.time()}
+                return
 
 
+            
             current_time = time.time()        
         return
     return
