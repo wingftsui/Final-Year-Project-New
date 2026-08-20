@@ -80,19 +80,19 @@ def detect_deauth(packet):
                 retry_bit=(packet.FCfield & 0x08)!=0
                 previous_seq=mac_history.get(src_mac,{}).get("seq",-1)
                 # Detection Logic:
-                # Pretend Resend Attack: is retry but sequence nubmer is different
+                # (1) Pretend Resend Attack: is retry but sequence nubmer is different
                 if previous_seq!= -1 and retry_bit and (current_seq!=previous_seq):
                     app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Pretend Resend Attack")
                     mac_history[src_mac]={"seq":current_seq,"time":time.time()}
                     return
 
-                # Replay Attack: is not retry but sequence nubmer is the same
+                # (2) Replay Attack: is not retry but sequence nubmer is the same
                 if previous_seq!=-1 and not retry_bit and (current_seq==previous_seq):
                     app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Replay Attack")
                     mac_history[src_mac]={"seq":current_seq,"time":time.time()}
                     return  
 
-                # Deauth Flood Attack
+                # (3) Deauth Flood Attack
                 current_time = time.time()
 
                 if src_mac not in attack_counter:
@@ -102,8 +102,15 @@ def detect_deauth(packet):
 
                 attack_counter[src_mac]=[t for t in attack_counter[src_mac]if current_time-t<=2]
 
-                if len(attack_counter[src_mac])>=20:
-                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack")
+                packets_within_2s=len(attack_counter[src_mac])
+                packets_within_0_1s=len([t for t in attack_counter[src_mac]if current_time-t<=0.1])
+
+                if packets_within_0_1s>=5:
+                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack-5 packets within 0.1s")
+                    attack_counter[src_mac]=[]
+
+                if packets_within_2s>=20:
+                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack-20 packets within 2s")
                     attack_counter[src_mac]=[]
 
                 mac_history
