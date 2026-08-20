@@ -95,7 +95,18 @@ def detect_deauth(packet):
                 # Deauth Flood Attack
                 current_time = time.time()
 
-                    
+                if src_mac not in attack_counter:
+                    attack_counter[src_mac]=[]
+
+                attack_counter[src_mac].append(current_time)
+
+                attack_counter[src_mac]=[t for t in attack_counter[src_mac]if current_time-t<=2]
+
+                if len(attack_counter[src_mac])>=20:
+                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack")
+                    attack_counter[src_mac]=[]
+
+                mac_history
         return
     return
 
