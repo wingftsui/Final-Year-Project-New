@@ -110,11 +110,11 @@ def detect_deauth(packet):
                 packets_within_0_1s=len([t for t in attack_counter[src_mac]if current_time-t<=0.1])
 
                 if packets_within_0_1s>=5:
-                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack-5 packets within 0.1s")
+                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack-5 packets within 0.5s")
                     attack_counter[src_mac]=[]
 
                 if packets_within_2s>=20:
-                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack-20 packets within 2s")
+                    app.after(0,trigger_warning,src_mac,dest_mac,"Deauth: Flood Attack-20 packets within 3s")
                     attack_counter[src_mac]=[]
 
                 mac_history
