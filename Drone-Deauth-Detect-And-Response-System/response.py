@@ -49,7 +49,7 @@ def active_response_land(drone_model=None, custom_ip=None):
     
     # Broadcast is prohibited in this system
     if target_mac.upper()=="FF:FF:FF:FF:FF:FF":
-        status_label.configure(text="Broadcast is prohibited in this system",text_colour="red")
+        status_label.configure(text="Broadcast is prohibited in this system",text_color="red")
         return
     
     iface = profile.get("interface", "wlan0")
