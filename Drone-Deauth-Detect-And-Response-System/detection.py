@@ -58,15 +58,17 @@ def trigger_warning(src_mac, dest_mac, reason):
 def detect_deauth(packet):
     # Detect Wifi packet
     if packet.haslayer(Dot11):
+
+        pkt_type = packet.type
+        pkt_subtype = packet.subtype
         # Check if it is management frame
         # And check if it is deauth or disassociation
         if pkt_type == 0 and (pkt_subtype == 12 or pkt_subtype == 10):
-            if packet.addr3 == "60:60:1F:60:9F:CD":
+            if packet.addr3 and packet.addr3.upper() == "60:60:1F:60:9F:CD":
 
                 dest_mac = packet.addr1
                 src_mac = packet.addr2
-                pkt_type = packet.type
-                pkt_subtype = packet.subtype
+
 
                 if src_mac is None:
                     return
