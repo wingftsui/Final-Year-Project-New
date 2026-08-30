@@ -73,7 +73,7 @@ def detect_deauth(packet):
                 if src_mac is None:
                     return
 
-                print(f"Deauth Packets Detected":{src_mac})
+                print(f"Deauth Packets Detected:{src_mac}")
 
                 # Extract Sequence Number
                 try:
