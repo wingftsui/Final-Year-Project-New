@@ -92,7 +92,7 @@ def btn_trigger_land():
     final_ip = None 
     threading.Thread(target=active_response_land, args=(selected_drone, final_ip), daemon=True).start()
 
-def counter_deauth():
+def self_deauth():
     drone_model = drone_combo.get()
     profiles = load_drone_json()
     if not profiles or drone_model not in profiles:
@@ -120,8 +120,8 @@ def counter_deauth():
 
 
 
-def btn_trigger_counter():
-    threading.Thread(target=counter_deauth, daemon=True).start()
+def btn_trigger_deauth():
+    threading.Thread(target=self_deauth, daemon=True).start()
 
 title_label = ctk.CTkLabel(app, text="Active Defense Response System", font=("Arial", 24, "bold"))
 title_label.pack(pady=(20, 10))
@@ -144,8 +144,8 @@ if drone_list:
 land_btn = ctk.CTkButton(app, text="EMERGENCY LAND", fg_color="red", hover_color="darkred", 
                          font=("Arial", 20, "bold"), height=50, command=btn_trigger_land)
 land_btn.pack(pady=30)
-counter_btn = ctk.CTkButton(app, text="Counter Deauth!", 
+deauth_btn = ctk.CTkButton(app, text="Self Deauth", 
                             fg_color="orange", hover_color="darkorange", 
-                            font=("Arial", 16, "bold"), height=40, command=btn_trigger_counter)
-counter_btn.pack(pady=10)
+                            font=("Arial", 16, "bold"), height=40, command=btn_trigger_deauth)
+deauth_btn.pack(pady=10)
 app.mainloop()
