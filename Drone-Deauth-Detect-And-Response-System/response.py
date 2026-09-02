@@ -135,8 +135,8 @@ drone_list = list(drone_data.keys()) if (drone_data is not None and "Error" not 
 drone_combo = ctk.CTkComboBox(app, values=drone_list, width=200)
 drone_combo.pack(pady=10)
 if drone_list:
-    if "Tello" in drone_list:
-        drone_combo.set("Tello")
+    if "Ryze Tello EDU" in drone_list:
+        drone_combo.set("Ryze Tello EDU")
     else:    
         drone_combo.set(drone_list[0])
 
