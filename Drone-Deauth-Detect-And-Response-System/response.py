@@ -89,8 +89,7 @@ def active_response_land(drone_model=None, custom_ip=None):
 def btn_trigger_land():
 
     selected_drone = drone_combo.get()
-    input_ip = ip_entry.get()
-    final_ip = input_ip if input_ip.strip() != "" else None 
+    final_ip = None 
     threading.Thread(target=active_response_land, args=(selected_drone, final_ip), daemon=True).start()
 
 def counter_deauth():
@@ -141,8 +140,6 @@ if drone_list:
     else:    
         drone_combo.set(drone_list[0])
 
-ip_entry = ctk.CTkEntry(app, placeholder_text="Custom IP (Optional)", width=200)
-ip_entry.pack(pady=10)
 
 land_btn = ctk.CTkButton(app, text="EMERGENCY LAND", fg_color="red", hover_color="darkred", 
                          font=("Arial", 20, "bold"), height=50, command=btn_trigger_land)
