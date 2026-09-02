@@ -57,7 +57,7 @@ def active_response_land(drone_model=None, custom_ip=None):
     target_port = profile.get("port", 1234)
 
     fake_client_mac = "00:AB:CD:EF:FF:FF" 
-    fake_client_ip = "1.2.3.4"
+    fake_client_ip = "192.168.10.2"
 
     status_label.configure(text=f"\n Will send active defense land command")
 
