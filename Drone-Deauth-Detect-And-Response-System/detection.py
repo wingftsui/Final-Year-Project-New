@@ -22,28 +22,6 @@ attack_counter = {}
 protected_drone_macs = []
 
 
-
-# # Read the drones information in the json file
-# def load_drone_json(filepath='drones.json'):
-#     try:
-#         with open(filepath,'r') as file:
-#             return json.load(file)
-#     # Check if the json config file is here. 
-#     # It records the Drone's profile data.
-#     # The details of the json content are in the readme file under "Drone-Deauth-Detect-And-Response-System" folder.  
-#     except FileNotFoundError:
-#         label.configure(text=f'No json config file found.')
-#         return{}
-
-# drones_data=load_drone_json()
-# for drone_name, details in drones_data.items():
-#     if isinstance(details,dict):
-#         if "mac_address" in details:
-#             protected_drone_macs.append(details["mac_address"].upper())
-#         if "ap_mac" in details:
-#             protected_drone_macs.append(details["ap_mac"].upper())
-
-
 # Detailed Warning Display
 def trigger_warning(src_mac, dest_mac, reason):
     global label
