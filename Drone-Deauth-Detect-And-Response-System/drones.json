@@ -2,7 +2,7 @@
     "DJI MINI SE": {
         "default_ip": "1.2.3.4",
         "mac_address": "00:AB:CD:EF:FF:FF",
-	"channel": "2",
+	    "channel": "3",
         "ap_mac": "60:60:1F:60:9F:CD",
         "interface": "wlan0",
         "port": 1111,
@@ -12,8 +12,8 @@
     },
     "Ryze Tello EDU": {
         "default_ip": "192.168.10.1",
-        "mac_address": "B0:DE:31:01:88:19",
-	"channel": "2",
+        "mac_address": "60:60:1F:60:9F:CD",
+	    "channel": "3",
         "ap_mac": "60:60:1F:60:9F:CD",
         "interface": "wlan0",
         "port": 8889,
